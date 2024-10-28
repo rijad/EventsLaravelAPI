@@ -40,7 +40,10 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        if ($event)
+            return $event;
+        else
+            return response(status: 204);   
     }
 
     /**
@@ -63,8 +66,10 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return response(status: 204);
     }
 }
