@@ -12,7 +12,6 @@ Route::get('/user', function (Request $request) {
  
 // Authentication routes
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
  
 // Publicly accessible routes
 // -- Events
@@ -25,6 +24,9 @@ Route::get('events/{event}/attendees/{attendee}', [AttendeeController::class, 's
  
 // Authenticated event routes
 Route::middleware('auth:sanctum')->group(function () {
+
+    //Auth
+    Route::post('logout', [AuthController::class, 'logout']);
  
     // Events
     Route::post('events', [EventController::class, 'store']);
