@@ -12,5 +12,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('events', EventController::class);
 Route::apiResource('events.attendees', AttendeeController::class)
-        ->scoped(["attendee" => 'event']); // scoped means that attendee is connected to event
-        
+        ->scoped()->except(['update']); // scoped means that attendee is connected to event without update method
+
