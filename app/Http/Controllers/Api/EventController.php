@@ -12,8 +12,11 @@ class EventController extends Controller
 {
 
     use CanLoadRelationships;
+    
 
     private array $relations = ['user','attendees','attendees.user'];
+
+  
 
     /**
      * Display a listing of the resource.
@@ -41,7 +44,7 @@ class EventController extends Controller
             'end_time'=>'required|date|after:start_time',
         ]);
 
-        $data['user_id'] = 1;
+        $data['user_id'] = $request->user()->id;
 
         $event = Event::create($data);
 
