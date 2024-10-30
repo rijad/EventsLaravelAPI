@@ -7,6 +7,8 @@ use App\Http\Resources\AttendeeResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Attendee;
 use App\Models\Event;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -42,7 +44,7 @@ class AttendeeController extends Controller
     {
         // associate attendee to it's parent Event
         $attendee = $this->loadRelationships($event->attendees()->create([
-            'user_id' => 1
+            'user_id' => $request->user_id
         ]));
 
         return new AttendeeResource($attendee);
