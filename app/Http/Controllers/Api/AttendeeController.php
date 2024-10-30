@@ -7,8 +7,10 @@ use App\Http\Resources\AttendeeResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Attendee;
 use App\Models\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+
 
 /**
  * Attendees can't exist on their own, 
@@ -75,6 +77,11 @@ class AttendeeController extends Controller
     
     public function destroy(string $event, Attendee $attendee)
     {
+        //Checks if allowed to delete
+        
+        if(Gate::denies('attendee-delete', [$event, $attendee])){
+            abort(403, 'You are not authorized to delete this attendee.');
+        }
         $attendee->delete();
         return response(status: 204);
         
