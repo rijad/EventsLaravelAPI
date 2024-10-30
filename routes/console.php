@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('app:send-event-remainders')->daily();
+
+// command in terminal that starts scheduler is:
+//  php artisan schedule:work
