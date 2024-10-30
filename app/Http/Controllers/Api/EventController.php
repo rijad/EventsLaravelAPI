@@ -18,19 +18,14 @@ class EventController extends Controller
     
 
     private array $relations = ['user','attendees','attendees.user'];
-
-  
-
+    
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $query =  $this->loadRelationships(Event::query(), $this->relations);
-
-        // relation contrstraints that can be generated and passed by user
-
-        
 
         return  EventResource::collection($query->latest()->paginate());
     }
@@ -69,15 +64,16 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         //Checks if allowed to update
-        if(Gate::denies('update-event', $event))
-        {
-            abort(403, 'You are not authorized to update this event.');
-        } 
+        // For  Gates:
+        // if(Gate::denies('update-event', $event))
+        // {
+        //     abort(403, 'You are not authorized to update this event.');
+        // } 
         // or use ->
         // $this->authorize('update-event', $event);
         // but add use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-
+        Gate::authorize('update',$event);
         $data = $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' =>'nullable|string',
@@ -95,6 +91,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        Gate::authorize('delete',$event);
         $event->delete();
 
         return response(status: 204);
